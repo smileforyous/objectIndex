@@ -1,0 +1,29 @@
+package com.smile;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author smileforyous
+ */
+public class DBUtils {
+
+	/**
+	 * @return " and (column in (1,2,3...1000) and column in (1001,1002,1003...2000)
+	 *         and column in (2001,2002,2003...[size]))"
+	 */
+	static String inParam2String(String column, List<Integer> searchList) {
+
+		StringBuffer result = new StringBuffer(" and (" + column + " in (");
+		for (int cnt = 0, size = searchList.size(); cnt < size; cnt++) {
+			if (cnt % 1000 == 0 && cnt != 0) {
+				result.append(") and " + column + " in (");
+			} else if (cnt != 0) {
+				result.append(",");
+			}
+			result.append(searchList.get(cnt));
+		}
+		return result.append("))").toString();
+	}
+
+}
